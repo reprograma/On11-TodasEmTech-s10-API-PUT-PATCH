@@ -1,12 +1,14 @@
-const express = require("express")
-const router = express.Router()
-const controller = require("../controllers/toDoController")
+const express = require("express");
+const router = express.Router();
+const controller = require("../controllers/toDoController");
 
-router.get("/", controller.getAll)
-router.get("/:id", controller.getById)
+router.post("/cadastrar", controller.createTask);
 
-router.post("/cadastrar", controller.createTask)
+router.get("/", controller.getAll);
+router.get("/:id", controller.getById);
 
-router.delete("/:id", controller.deleteTask)
+router.put("/:id", controller.replaceTask);
 
-module.exports = router
+router.delete("/:id", controller.deleteTask);
+
+module.exports = router;
