@@ -1,12 +1,22 @@
-const express = require("express")
-const router = express.Router()
-const controller = require("../controllers/toDoController")
 
-router.get("/", controller.getAll)
-router.get("/:id", controller.getById)
+const roteador =  expresso.Roteador ( )
+const  controller  =  require ( "../controllers/toDoController" )
+const  express  =  require ( "express" ) ;
+const roteador =  express.Roteador ( ) ;
+const controller =  require ( "../controllers/toDoController" ) ;
 
-router.post("/cadastrar", controller.createTask)
+roteador.get ( "/" ,  controller.getAll )
+roteador.get ( "/: id" ,  controller.getById )
+roteador.post ( "/ cadastrar" ,  controller.createTask ) ;
 
-router.delete("/:id", controller.deleteTask)
+roteador.post ( "/ cadastrar" ,  controller.createTask )
+roteador.get ( "/" ,  controller.getAll ) ;
+roteador.get ( "/: id" ,  controller.getById ) ;
 
-module.exports = router
+roteador.delete ( "/: id" ,  controller.deleteTask )
+roteador.put ( "/: id" ,  controller.replaceTask ) ;
+
+módulo.exportações  =  roteador 
+roteador.delete ( "/: id" ,  controller.deleteTask ) ;
+
+módulo.exportações  =  roteador ;
