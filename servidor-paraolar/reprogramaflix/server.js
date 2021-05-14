@@ -1,5 +1,6 @@
 const app = require("./src/app")
+const PORT = 5050
 
-app.listen(8080, ()=>{
-    console.log("Uhuuul nova iguaçu na porta 8080")
+app.listen(PORT, ()=>{
+    console.log(`Servidor rodando na porta ${PORT}`)
 })
