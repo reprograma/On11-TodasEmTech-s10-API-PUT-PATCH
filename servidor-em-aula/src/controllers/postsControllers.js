@@ -1,4 +1,6 @@
 const postsJson = require("../models/posts.json")
+const utils = require("../utils/postsUtils")
+
 
 const getAll = (request, response)=>{
     response.status(200).json(postsJson)
@@ -6,9 +8,7 @@ const getAll = (request, response)=>{
 
 const getById = (request, response)=>{
     const idRequerido = request.params.id
-    const postFiltrado = postsJson.find(post => post.id == idRequerido)
-
-    response.status(200).send(postFiltrado)
+    response.status(200).send(utils.filtrarPost(postsJson,idRequerido))
 }
 
 const createPost = (request, response)=>{
@@ -35,7 +35,8 @@ const createPost = (request, response)=>{
 const replacePost = (request, response)=>{
     const idRequerido = request.params.id
     let postBody = request.body
-    const postFiltrado = postsJson.find(post => post.id == idRequerido)
+
+    const postFiltrado = utils.filtrarPost(postsJson,idRequerido)
 
     let postAtualizado = {
         id: postFiltrado.id,
@@ -58,7 +59,7 @@ const replacePost = (request, response)=>{
 const updateTitle = (request, response) =>{
     const idRequerido = request.params.id
     let newTitle = request.body.titulo
-    const postFiltrado = postsJson.find(post => post.id == idRequerido)
+    const postFiltrado = utils.filtrarPost(postsJson,idRequerido)
 
     postFiltrado.titulo = request.body.titulo
 
@@ -71,7 +72,7 @@ const updateTitle = (request, response) =>{
 const updateAnything = (request, response)=>{
     const idRequerido = request.params.id
     const atualizacaoBody = request.body
-    const postFiltrado = postsJson.find(post => post.id == idRequerido)
+    const postFiltrado = utils.filtrarPost(postsJson,idRequerido)
 
     let listaDeChaves = Object.keys(atualizacaoBody)
 
@@ -87,7 +88,7 @@ const updateAnything = (request, response)=>{
 
 const deletePost = (request, response) =>{
     const idRequerido = request.params.id
-    const postFiltrado = postsJson.find(post => post.id == idRequerido)
+    const postFiltrado = utils.filtrarPost(postsJson,idRequerido)
 
     const indice = postsJson.indexOf(postFiltrado)
     
