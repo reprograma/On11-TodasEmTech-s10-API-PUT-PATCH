@@ -8,5 +8,13 @@ router.get("/title", controller.getByTitle)
 router.get("/genre", controller.getByGenre)
 router.get("/:id", controller.getById)
 
+router.post("/cadastrar", controller.createTask)
+
+router.put("/:id", controller.replacePost)
+
+router.patch("/:id", controller.updateTitle)
+
+router.delete("/:id", controller.deleteTask)
+
 
 module.exports = router //exportando o router

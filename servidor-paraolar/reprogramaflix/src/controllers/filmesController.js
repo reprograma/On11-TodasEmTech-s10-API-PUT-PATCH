@@ -1,4 +1,5 @@
-const filmes = require("../models/filmes.json") //chamar nosso json
+const filmes = require("../models/filmes.json")
+const utils = require("../utils/filmesUtils")
 
 const getAll = (request, response)=>{ //criar função getAll
     response.status(200).send(filmes)
@@ -48,9 +49,94 @@ const getByGenre = (request, response)=>{
     response.status(200).send(novaLista)
 }
 
-module.exports = { //exportando as funções
+const createTask = (request, response) =>{
+    const tituloCadastrado = request.body.Title
+    const anoLancamento = request.body.Year
+    const tempoFilme = request.body.Runtime
+    const generoFilme = request.body.Genre
+    const diretorFilme = request.body.Director
+    const idioma = request.body.Language
+    const paisFilme = request.body.Country
+
+    const novaTarefa ={
+        id: Math.random().toString(32).substr(2,9),
+        Title: tituloCadastrado,
+        Year: anoLancamento,
+        Runtime: tempoFilme,
+        Genre: generoFilme,
+        Director: diretorFilme,
+        Language: idioma,
+        Country: paisFilme
+        
+    }   
+
+    filmes.push(novaTarefa)
+
+    response.status(200).send(novaTarefa)
+
+}
+
+const replacePost = (request, response) =>{
+    const idRequerido = request.params.id
+    let postBody = request.body
+
+    const postFiltrado = utils.filtrarPost(filmes,idRequerido)
+
+    let postAtualizado = {
+        id: postFiltrado.id,
+        Title: postBody.Title,
+        Year: postBody.Year,
+        Runtime: postBody.Runtime,
+        Genre: postBody.Genre,
+        Director: postBody.Director,
+        Language: postBody.Language,
+        Country: postBody.Country
+    }
+
+    const indice = filmes.indexOf(postFiltrado)
+    filmes.splice(indice, 1, postAtualizado)
+
+    response.status(200).json([{
+        "mensagem": "Post substituido com sucesso",
+        postAtualizado
+    }])
+}
+
+const updateTitle = (request, response) =>{
+    const idRequerido = request.params.id
+    let newTitle = request.body.Title
+    const postFiltrado = utils.filtrarPost(filmes,idRequerido)
+
+    postFiltrado.Title = request.body.Title
+
+    response.status(200).json([{
+        "mensagem": "Nome do filme atualizado com sucesso",
+        postFiltrado
+    }])
+}
+
+const deleteTask = (request, response)=>{
+    const idRequerido = request.params.id
+    const postFiltrado = utils.filtrarPost(filmes,idRequerido)
+    
+    const indice = filmes.indexOf(postFiltrado)
+    filmes.splice(indice, 1)
+
+    response.status(200).json([{
+        "mensagem": "Tarefa deletada com sucesso",
+        filmes
+    }])
+
+}
+
+
+module.exports = { 
     getAll,
     getById,
     getByTitle,
-    getByGenre
+    getByGenre,
+    createTask,
+    replacePost,
+    updateTitle,
+    deleteTask
 }
