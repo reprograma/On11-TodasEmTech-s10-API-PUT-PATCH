@@ -6,15 +6,15 @@ const getAll = (request, response)=>{
 }
 
 const getById = (request, response) =>{
-    const idRequirido = request.params.id
-    const tarefaFiltrada = tarefasJson.find(tarefa => tarefa.id == idRequirido)
+    const idRequerido = request.params.id
+    const tarefaFiltrada = tarefasJson.find(tarefa => tarefa.id == idRequerido)
 
     response.status(200).send(tarefaFiltrada)
 }
 
 const createTask = (request, response) =>{
-    const descricaoRequirida = request.body.descricao
-    const nomeColaboradorRequirido = request.body.nomeColaborador
+    const descricaoRequerida = request.body.descricao
+    const nomeColaboradorRequerido = request.body.nomeColaborador
 
     
 
@@ -22,34 +22,68 @@ const createTask = (request, response) =>{
         id: Math.random().toString(32).substr(2,9),
         dataInclusao: new Date(),
         concluido: false,
-        descricao: descricaoRequirida,
-        nomeColaborador: nomeColaboradorRequirido
+        descricao: descricaoRequerida,
+        nomeColaborador: nomeColaboradorRequerido
     }
 
     tarefasJson.push(novaTarefa)
 
-    // fs.writeFile("./src/models/tarefas.json", JSON.stringify(tarefasJson), 'utf8', function(err){
-    //     if(err) {
-    //         return response.status(424).send({message: err})
-    //     }
-    // })
+    fs.writeFile("./src/models/tarefas.json", JSON.stringify(tarefasJson), 'utf8', function(err){
+        if(err) {
+            return response.status(424).send({message: err})
+        }
+    })
 
     response.status(200).send(novaTarefa)
 
 }
 
+const replaceTask = (request, response) => {
+    const idRequerido = request.params.id
+    let tarefaAtualizada = request.body
+    const tarefaFiltrada = tarefasJson.find(tarefa => tarefa.id == idRequerido)
+    const indice = tarefasJson.indexOf(tarefaFiltrada)
+
+    tarefaAtualizada.id = idRequerido
+    tarefaAtualizada.dataInclusao = tarefaAtualizada.dataInclusao
+
+    postsJson.splice(indice, 1, tarefaAtualizada)
+
+    response.status(200).json([{
+        "mensagem": "Tarefa substituida com suscesso",
+        tarefaAtualizada
+    }])
+}
+
+
+const updateAnything = (request, response) => {
+    const idRequerido = request.params.id
+    let atualizacaoBody = request.body
+    const tarefaFiltrada = tarefasJson.find(tarefa => tarefa.id == idRequerido)
+
+    Object.keys(atualizacaoBody).forEach((chave) => {
+        tarefaFiltrada[chave] = tarefaFiltrada[chave]
+    })
+
+
+    response.status(200).json([{
+        "mensagem": "Tarefa atualizada com sucesso",
+        tarefaFiltrada
+    }])
+}
+
 const deleteTask = (request, response)=>{
-    const idRequirido = request.params.id
-    const tarefaFiltrada = tarefasJson.find(tarefa => tarefa.id == idRequirido)
+    const idRequerido = request.params.id
+    const tarefaFiltrada = tarefasJson.find(tarefa => tarefa.id == idRequerido)
 
     const indice = tarefasJson.indexOf(tarefaFiltrada)
     tarefasJson.splice(indice, 1)
 
-    // fs.writeFile("./src/models/tarefas.json", JSON.stringify(tarefasJson), 'utf8', function(err){
-    //     if(err) {
-    //         return response.status(424).send({message: err})
-    //     }
-    // })
+    fs.writeFile("./src/models/tarefas.json", JSON.stringify(tarefasJson), 'utf8', function(err){
+        if(err) {
+            return response.status(424).send({message: err})
+        }
+    })
 
     response.status(200).json([{
         "mensagem": "Tarefa deletada com sucesso",
@@ -63,5 +97,8 @@ module.exports ={
     getAll,
     getById,
     createTask,
-    deleteTask
+    replaceTask, //novo
+    updateAnything, //novo
+    deleteTask,
+
 }

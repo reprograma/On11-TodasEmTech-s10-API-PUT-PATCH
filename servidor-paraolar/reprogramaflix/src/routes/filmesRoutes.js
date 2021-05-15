@@ -1,5 +1,4 @@
 const controller  = require("../controllers/filmesController")//chama o controler
-
 const express = require("express")//chamando o express 
 const router = express.Router()//executando Router
 
@@ -8,5 +7,18 @@ router.get("/title", controller.getByTitle)
 router.get("/genre", controller.getByGenre)
 router.get("/:id", controller.getById)
 
+router.post("/cadastrar", controller.createMovie) //NOVO
+
+router.put("/:id", controller.replaceMovie) //NOVO
+
+router.patch("/updateTitle/:id", controller.updateTitle) //NOVO
+router.patch("/update/:id", controller.updateAnything) //NOVO
+
+router.delete("/:id", controller.deleteMovie) //NOVO
+
 
 module.exports = router //exportando o router
+
+
+
+
