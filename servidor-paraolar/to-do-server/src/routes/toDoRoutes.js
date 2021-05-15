@@ -9,4 +9,8 @@ router.post("/cadastrar", controller.createTask)
 
 router.delete("/:id", controller.deleteTask)
 
+router.put("/:id", controller.replaceTask)
+
+router.patch("/:id", controller.updateTask)
+
 module.exports = router
