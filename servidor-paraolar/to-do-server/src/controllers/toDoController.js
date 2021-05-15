@@ -1,5 +1,5 @@
 const tarefasJson = require("../models/tarefas.json")
-const fs = require("fs")
+//const fs = require("fs")
 
 const getAll = (request, response)=>{
     response.status(200).send(tarefasJson)
@@ -37,7 +37,58 @@ const createTask = (request, response) =>{
     response.status(200).send(novaTarefa)
 
 }
+const replaceTask = (request, response)=>{
+    const idRequerido = request.params.id
+    let tarefaBody = request.body
 
+    let tarefaFiltrada = tarefasJson.find(tarefa => tarefa.id == idRequerido)
+
+    let tarefaAtualizada = {
+        id: tarefaFiltrada.id,
+        dataInclusao: tarefaFiltrada.dataInclusao,
+        concluido: tarefaBody.concluido,
+        descricao: tarefaBody.descricao,
+        nomeColaborador: tarefaBody.nomeColaborador
+    }
+
+    const indice = tarefasJson.indexOf(tarefaFiltrada)
+    tarefasJson.splice(indice, 1, tarefaAtualizada)
+
+    response.status(200).json([{
+        "mensagem": "Tarefa substituida com sucesso",
+        tarefaAtualizada
+    }])
+
+}
+
+const updateName = (request, response) =>{
+    const idRequerido = request.params.id
+    let newName = request.body.nomeColaborador
+    let tarefaFiltrada = tarefasJson.find(tarefa => tarefa.id == idRequerido)
+
+    tarefaFiltrada.nomeColaborador = newName
+
+    response.status(200).json([{
+        "mensagem": "Nome do colaborador atualizado com sucesso",
+        tarefaFiltrada
+    }])
+}
+
+const updateAnything = (request, response)=>{
+    const idRequerido = request.params.id
+    const atualizacaoBody = request.body
+    let tarefaFiltrada = tarefasJson.find(tarefa => tarefa.id == idRequerido)
+    let listaDeChaves = Object.keys(atualizacaoBody)
+
+    listaDeChaves.forEach((chave)=>{
+        tarefaFiltrada[chave] = atualizacaoBody[chave]
+    })
+
+    response.status(200).json([{
+        "mansagem": "tarefa atualizado com sucesso",
+        tarefaFiltrada
+    }])
+}
 const deleteTask = (request, response)=>{
     const idRequirido = request.params.id
     const tarefaFiltrada = tarefasJson.find(tarefa => tarefa.id == idRequirido)
@@ -63,5 +114,8 @@ module.exports ={
     getAll,
     getById,
     createTask,
+    replaceTask,
+    updateName,
+    updateAnything,
     deleteTask
 }
