@@ -1,4 +1,4 @@
-const controller  = require("../controllers/filmesController")//chama o controler
+const controller = require("../controllers/filmesController")//chama o controler
 
 const express = require("express")//chamando o express 
 const router = express.Router()//executando Router
@@ -8,5 +8,12 @@ router.get("/title", controller.getByTitle)
 router.get("/genre", controller.getByGenre)
 router.get("/:id", controller.getById)
 
+router.post("/create", controller.createFilme)
+
+router.put("/:id", controller.replaceFilme)
+
+router.patch("/update/:id", controller.updateFilmes)
+
+router.delete("/:id", controller.deleteFilme) 
 
 module.exports = router //exportando o router
