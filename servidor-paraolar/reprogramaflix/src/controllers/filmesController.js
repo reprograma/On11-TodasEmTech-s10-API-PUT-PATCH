@@ -48,9 +48,50 @@ const getByGenre = (request, response)=>{
     response.status(200).send(novaLista)
 }
 
+const createMovie = (request, response) => {
+    let newMovie = {
+        id: Math.random().toString(32).substr(2,6),
+        Title: request.body.Title,
+        Year: request.body.Year,
+        Rated: request.body.Rated,
+        Released: request.body.Released,
+        Runtime: request.body.Runtime,
+        Genre: request.body.Genre,
+        Director: request.body.Director,
+        Writer: request.body.Writer,
+        Actors: request.body.Actors,
+        Plot: request.body.Plot,
+        Language: request.body.Language,
+        Country: request.body.Country,
+        Awards: request.body.Awards
+    }
+
+    filmes.push(newMovie);
+
+    response.status(201).json ([{
+        "mensagem": "Filme adcionado com sucesso",
+        filmes
+    }])
+}
+
+const deleteMovie = (request, response) => {
+    const id = request.params.id;
+    const filmeFiltrado = filmes.find(filme => filme.id == id);
+
+    const indice = filmes.indexOf(filmeFiltrado);
+    filmes.splice(indice, 1);
+
+    response.status(200).json ([{
+        "mensagem": "Filme deletado com sucesso",
+        filmes 
+    }])
+}
+
 module.exports = { //exportando as funções
     getAll,
     getById,
     getByTitle,
-    getByGenre
+    getByGenre,
+    createMovie,
+    deleteMovie
 }

@@ -8,5 +8,8 @@ router.get("/title", controller.getByTitle)
 router.get("/genre", controller.getByGenre)
 router.get("/:id", controller.getById)
 
+router.post("/create", controller.createMovie);
+router.delete("/:id", controller.deleteMovie);
+
 
 module.exports = router //exportando o router
