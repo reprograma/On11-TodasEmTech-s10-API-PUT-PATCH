@@ -1,5 +1,5 @@
-const express = require("express")
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 
 router.get("/", (request, response)=>{
     response.status(200).json({
@@ -7,5 +7,5 @@ router.get("/", (request, response)=>{
         "version": "1.0.0",
         "mensagem": "bem vinda bebe"
     })
-})
-module.exports = router
+});
+module.exports = router;
