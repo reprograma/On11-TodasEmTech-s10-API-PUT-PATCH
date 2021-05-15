@@ -14,15 +14,16 @@ retorna o cadastro de uma nova tarefa através do json
 {
     "id": "String Randomico",
     "dataInclusao": new Date(),
-    "concluido": boleano,
+    "concluido": booleano,
     "descricao": "String",
     "nomeColaborador": "String"
 }
 
 [PUT]"/tarefas/:id"
 retorna a atualização da tarefa, com a mudança do status "concluido", e sua "descricao". com o json;
+
 {
-    "concluido": boleano,
+    "concluido": booleano,
     "descricao": "string",
 }
 
