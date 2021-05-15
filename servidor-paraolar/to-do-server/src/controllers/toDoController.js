@@ -58,10 +58,48 @@ const deleteTask = (request, response)=>{
 
 }
 
+const replaceTask = (request,response)=>{
+    const idRequerido = request.params.id
+    const tarefaFiltrada = tarefasJson.find(tarefa => tarefa.id == idRequerido)
+
+    const tarefaAtualizada ={
+        id: tarefaFiltrada.id,
+        dataInclusao: request.body.dataInclusao,
+        concluido: request.body.concluido,
+        descricao: request.body.descricao,
+        nomeColaborador: request.body.nomeColaborador
+    }
+
+    const indice = tarefasJson.indexOf(tarefaFiltrada)
+    filmes.splice(indice, 1, tarefaAtualizada)
+
+    response.status(200).json([{
+        "mensagem":"Tarefa atualizad",
+       tarefaAtualizada
+    }])
+}
+
+const updateTask = (request, response)=>{
+    const idRequerido = request.params.id
+    const tarefaFiltrada = tarefasJson.find(tarefa => tarefa.id == idRequerido)
+
+    let listaChaves = Object.keys(request.body)
+
+    listaChaves.forEach((chave)=>{
+        tarefaFiltrada[chave] =request.body[chave]
+    })
+
+    response.status(200).json([{
+        "mensagem":"Tarefa atualizada",
+        tarefaFiltrada
+    }])
+}
 
 module.exports ={
     getAll,
     getById,
     createTask,
-    deleteTask
+    deleteTask,
+    updateTask,
+    replaceTask
 }
