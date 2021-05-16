@@ -5,7 +5,10 @@ const controller = require("../controllers/toDoController")
 router.get("/", controller.getAll)
 router.get("/:id", controller.getById)
 
-router.post("/cadastrar", controller.createTask)
+router.post("/createTask", controller.createTask)
+router.put("/replaceTask", controller.replaceTask)
+router.patch("/updateName", controller.updateName)
+
 
 router.delete("/:id", controller.deleteTask)
 

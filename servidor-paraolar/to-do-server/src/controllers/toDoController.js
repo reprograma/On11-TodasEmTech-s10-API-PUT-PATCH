@@ -38,6 +38,36 @@ const createTask = (request, response) =>{
 
 }
 
+const replaceTask= (request, response)=>{
+    const idRequerido = request.params.id
+    let descricaoAtualizado = request.body
+    const descricaoFiltrada = tarefasJson.find(tarefa=>tarefa.id ==idRequerido)
+    const indice = tarefasJson.indexOF(tarefaFiltrada)
+
+    console.log(descricaoAtualizado)
+    descricaoAtualizado
+
+    ftarefasJson.splice(indice,1,descricaoAtualizado)
+
+    response.status(200).json([{
+        "mensagem" : "Descrição atualizado com sucesso",
+        descricaoAtualizado
+    }])
+}
+
+const updateName = (request, response)=>{
+    const idRequerido = request.params.id
+    let newName = request.body.title
+    const tarefaFiltrado = tarefasJson.find(tarefa=>tarefa.id ==idRequerido)
+    
+    nomeFiltrado.nomeColaborador = newName
+    
+    response.status(200).json([{
+    "mensagem": "Nome atualizado com sucesso",
+    nomeFiltrado
+    }])
+    }
+
 const deleteTask = (request, response)=>{
     const idRequirido = request.params.id
     const tarefaFiltrada = tarefasJson.find(tarefa => tarefa.id == idRequirido)
@@ -63,5 +93,7 @@ module.exports ={
     getAll,
     getById,
     createTask,
+    replaceTask,
+    updateName,
     deleteTask
 }

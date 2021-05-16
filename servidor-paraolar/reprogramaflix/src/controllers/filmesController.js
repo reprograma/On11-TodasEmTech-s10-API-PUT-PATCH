@@ -1,3 +1,4 @@
+const { response } = require("../app")
 const filmes = require("../models/filmes.json") //chamar nosso json
 
 const getAll = (request, response)=>{ //criar função getAll
@@ -48,9 +49,101 @@ const getByGenre = (request, response)=>{
     response.status(200).send(novaLista)
 }
 
+const createFilme= (request, response)=>{
+    let titleRequerido = request.body.title
+    let genreRequerido = request.body.genre
+    let idRequeridas =request.body.id
+ 
+
+let newFilme={
+    titulo: titleRequerido,
+    genero: genreRequerido,
+    id: idRequeridas
+    }
+
+    filmesJson.push(newFilme)
+
+    response.status(201).json([{
+        "mensagem": "Filme criado da tarefa",
+        newFilme
+    }])
+}
+
+const replaceFilme = (request, response)=>{
+    const idRequerido = request.params.id
+    let filmeAtualizado = request.body
+    const filmeFiltrado = filmesJson.find(filme=>filme.id ==idRequerido)
+    const indice = filmesJson.indexOF(filmeFiltrado)
+
+    console.log(filmeAtualizado)
+    filmeAtualizado
+
+    filmesJson.splice(indice,1,filmeAtualizado)
+
+    response.status(200).json([{
+        "mensagem" : "Filme atualizado com sucesso",
+        filmeAtualizado
+    }])
+}
+
+const updateTitle = (request, response)=>{
+    const idRequerido = request.params.id
+    let newTitle = request.body.title
+    const filmeFiltrado = filmesJson.find(filme=>filme.id ==idRequerido)
+    
+    filmeFiltrado.titulo = newTitle
+    
+    response.status(200).json([{
+    "mensagem": "Título atualizado com sucesso",
+    filmeFiltrado
+    }])
+    }
+
+    const updateAnything = (request, response) =>{
+        const idRequerido = request.params.id
+        const atualizacaoBody = request.body
+        const filmeFiltrado = filmesJson.find(filme=>filme.id ==idRequerido)
+        
+            
+        let listadeChaves = Object.keys(atualizacaoBody)
+        
+        filmeFiltrado[chave] = request.body[chave]
+            
+        }
+        response.status(200).json([{
+            "mensagem": "filme atualizado com sucesso",
+            filmeFiltrado
+        }])
+     
+    
+
+const deleteFilme = (request, response) =>{
+    const idRequerido = request.params.id
+    const filmeFiltrado = filmesJson.find(filme=>filme.id ==idRequerido)
+    
+    const indice = filmesJson.indexOF(filmetFiltrado)
+    
+
+    filmesJson.splice(indice,1, filmeAtualizado)
+
+    
+    response.status(200).json([{
+        "mensagem": "Filme deletado",
+        filmesJson
+    }])
+    
+}
+
 module.exports = { //exportando as funções
     getAll,
     getById,
     getByTitle,
-    getByGenre
+    getByGenre,
+    createFilme,
+    replaceFilme,
+    updateTitle,
+    updateAnything,
+    deleteFilme
+
+
 }
