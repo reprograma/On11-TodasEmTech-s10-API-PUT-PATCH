@@ -1,3 +1,4 @@
+const { request, response } = require("express")
 const filmes = require("../models/filmes.json") //chamar nosso json
 
 const getAll = (request, response)=>{ //criar função getAll
@@ -74,6 +75,51 @@ const createMovie = (request, response) => {
     }])
 }
 
+const replaceMovie = (request, response) => {
+    const id = request.params.id;
+    let filmeAtualizado = request.body;
+    const filmeFiltrado = filmes.find(filme => filme.id == id);
+
+    const indice = filmes.indexOf(filmeFiltrado);
+
+    filmeAtualizado.id = id;
+    filmes.splice(indice, 1, filmeAtualizado);
+
+    response.status(200).json ([{
+        "mensagem": "Filme atualizado com sucesso", 
+        filmeAtualizado
+    }])
+}
+
+const updateTitle = (request, response) => {
+    const id = request.params.id;
+    let newTitle = request.body.title;
+
+    const filmeFiltrado = filmes.find(filme => filme.id == id);
+
+    filmeFiltrado.title = newTitle;
+
+    response.status(200).json ([{
+        "mensagem": "Título atualizado com sucesso"
+    }])
+}
+
+const updateAnything = (request, response) => {
+    const id = request.params.id;
+    const atualizacaoBody = request.body;
+
+    const filmeFiltrado = filmes.find(filme => filme.id  == id)
+
+    Object.keys(atualizacaoBody).forEach((key) => {
+        filmeFiltrado[key] = atualizacaoBody[key]
+    })
+
+    response.status(200).json([{
+        "mensagem": "Filme atualizado com sucesso",
+        filmeFiltrado
+    }])
+}
+
 const deleteMovie = (request, response) => {
     const id = request.params.id;
     const filmeFiltrado = filmes.find(filme => filme.id == id);
@@ -93,5 +139,8 @@ module.exports = { //exportando as funções
     getByTitle,
     getByGenre,
     createMovie,
+    replaceMovie,
+    updateTitle,
+    updateAnything,
     deleteMovie
 }
