@@ -7,6 +7,10 @@ router.get("/todos", controller.getAll)//configurando continuação da rota e di
 router.get("/title", controller.getByTitle)
 router.get("/genre", controller.getByGenre)
 router.get("/:id", controller.getById)
-
+router.post("/create", controller.createFilme)
+router.put("/:id", controller.replaceFilme)
+router.patch("/:id", controller.updateFilme)
+router.patch("/update/title/", controller.updateByTitle)
+router.delete("/:id", controller.deleteById)
 
 module.exports = router //exportando o router
