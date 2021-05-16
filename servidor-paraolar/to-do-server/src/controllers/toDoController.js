@@ -1,5 +1,6 @@
 const tarefasJson = require("../models/tarefas.json")
 const fs = require("fs")
+const utils = require("../utils/tarefasUtils")
 
 const getAll = (request, response)=>{
     response.status(200).send(tarefasJson)
@@ -38,6 +39,45 @@ const createTask = (request, response) =>{
 
 }
 
+const replaceTarefa = (request, response)=>{
+    const idRequerido = request.params.id
+    let tarefaBody = request.body
+    
+    const tarefaFiltrada =  utils.filtrarTarefa(tarefasJson, idRequerido)
+    
+    let tarefaAtualizada = {
+        id: tarefaFiltrada.id,
+        dataInclusao: tarefaFiltrada.dataInclusao,
+        concluido: tarefaBody.concluido,
+        descricao: tarefaBody.conteudo,
+        nomeColaborador: tarefaBody.nomeColaborador
+    }
+    
+    
+    const indice = tarefasJson.indexOf(tarefaFiltrada)
+    tarefasJson.splice(indice, 1, tarefaAtualizada)
+
+    response.status(200).json([{
+        "mensagem": "Tarefa substituida com sucesso!",
+        tarefaAtualizada
+    }])
+
+}
+
+const updateConcluido = (request, response) =>{
+    const idRequerido = request.params.id
+    let newConcluido = request.body.concluido
+    const tarefaFiltrada = utils.filtrarTarefa(tarefasJson, idRequerido)
+
+    tarefaFiltrada.concluido = newConcluido
+
+    response.status(200).json([{
+        "mensagem": "concluido atualizado com sucesso",
+        tarefaFiltrada
+    }])
+}
+
+
 const deleteTask = (request, response)=>{
     const idRequirido = request.params.id
     const tarefaFiltrada = tarefasJson.find(tarefa => tarefa.id == idRequirido)
@@ -63,5 +103,7 @@ module.exports ={
     getAll,
     getById,
     createTask,
+    replaceTarefa,
+    updateConcluido,
     deleteTask
 }

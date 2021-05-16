@@ -7,6 +7,11 @@ router.get("/:id", controller.getById)
 
 router.post("/cadastrar", controller.createTask)
 
+router.put("/:id", controller.replaceTarefa)
+
+router.patch("/update/:id", controller.updateConcluido)
+
+
 router.delete("/:id", controller.deleteTask)
 
 module.exports = router
