@@ -8,5 +8,12 @@ router.get("/title", controller.getByTitle)
 router.get("/genre", controller.getByGenre)
 router.get("/:id", controller.getById)
 
+router.post("/create", controller.createMovie);
+
+router.put("/:id", controller.replaceMovie);
+router.patch("/updateTitle/:id", controller.updateTitle);
+router.patch("/update/:id", controller.updateAnything)
+router.delete("/:id", controller.deleteMovie);
+
 
 module.exports = router //exportando o router

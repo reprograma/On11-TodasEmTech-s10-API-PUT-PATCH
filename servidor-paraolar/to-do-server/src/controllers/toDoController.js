@@ -1,5 +1,6 @@
 const tarefasJson = require("../models/tarefas.json")
 const fs = require("fs")
+const { request } = require("express")
 
 const getAll = (request, response)=>{
     response.status(200).send(tarefasJson)
@@ -38,6 +39,37 @@ const createTask = (request, response) =>{
 
 }
 
+const replaceTask = (request, response) => {
+    const id = request.params.id;
+    let tarefaAtualizada = request.body;
+    const tarefaFiltrada = tarefasJson.find(tarefa => tarefa.id == id);
+
+    const indice = tarefasJson.indexOf(tarefaFiltrada);
+
+    tarefaAtualizada.id = id;
+    tarefasJson.splice(indice, 1, tarefaAtualizada);
+
+    response.status(200).json ([{
+        "mensagem": "Tarefa atualizada com sucesso"
+    }])
+}
+
+const updateAnything = (request, response) => {
+    const id = request.params.id;
+    const taskAtualizada = request.body;
+
+    const tarefaFiltrada = tarefasJson.find(tarefa => tarefa.id == id);
+
+    Object.keys(taskAtualizada).forEach((key) => {
+        tarefaFiltrada[key] = taskAtualizada[key]
+    })
+
+    response.status(200).json([{
+        "mensagem": "Filme atualizado com sucesso",
+        tarefaFiltrada
+    }])
+}
+
 const deleteTask = (request, response)=>{
     const idRequirido = request.params.id
     const tarefaFiltrada = tarefasJson.find(tarefa => tarefa.id == idRequirido)
@@ -63,5 +95,7 @@ module.exports ={
     getAll,
     getById,
     createTask,
+    replaceTask,
+    updateAnything,
     deleteTask
 }
