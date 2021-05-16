@@ -58,10 +58,49 @@ const deleteTask = (request, response)=>{
 
 }
 
+const upDate = (request, response)=>{
+    const tarefa = tarefasJson.find(tarefa=> tarefa.id == request.params.id)
+    const tarefaReq = request.body
+    delete tarefaReq.id
+ 
+    console.log(Object.keys(tarefaReq))
+
+    Object.keys(tarefa).forEach(key=>tarefa[key]=tarefaReq[key]||tarefa[key])
+    console.log(tarefa) 
+
+        response.status(200).json([{
+            "mensagem":"Tarefa atualizada com sucesso",
+            tarefasJson
+        }])
+}
+const put = (request, response)=>{
+    const tarefa = tarefasJson.find(tarefa=> tarefa.id == request.params.id)
+    const tarefaReq = request.body
+    
+    
+    let dataInclusao = tarefaReq.dataInclusao || tarefa.dataInclusao
+    let concluido = (tarefaReq.concluido==undefined)? tarefa.concluido : tarefaReq.concluido
+    let descricao = tarefaReq.descricao || tarefa.descricao
+    let nomeColaborador = tarefaReq.nomeColaborador || tarefa.nomeColaborador
+    let id = tarefa.id
+
+    const putJson = {id,dataInclusao,concluido,descricao,nomeColaborador}
+    console.log(putJson)
+
+    const indice = tarefasJson.indexOf(tarefa)
+    tarefasJson.splice(indice,1,putJson)
+
+    response.status(200).json([{
+        "mensagem":"Tarefa substituida com sucesso",
+        tarefasJson
+    }])
+}
 
 module.exports ={
     getAll,
     getById,
     createTask,
-    deleteTask
+    deleteTask,
+    upDate,
+    put
 }
