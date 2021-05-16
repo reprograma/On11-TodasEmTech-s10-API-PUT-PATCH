@@ -1,0 +1,20 @@
+{
+  "name": "on11-todasemtech-s10-api-put-patch",
+  "version": "1.0.0",
+  "description": "Turma Online 11 - Todas em Tech | Back-end | 2021 | Métodos: PUT e PATCH",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Marianaliima/On11-TodasEmTech-s10-API-PUT-PATCH.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Marianaliima/On11-TodasEmTech-s10-API-PUT-PATCH/issues"
+  },
+  "homepage": "https://github.com/Marianaliima/On11-TodasEmTech-s10-API-PUT-PATCH#readme",
+  "keywords": []
+}
