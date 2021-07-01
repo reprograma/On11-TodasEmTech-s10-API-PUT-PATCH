@@ -3,6 +3,6 @@ const app = express() //executar express
 
 const filmes = require("./routes/filmesRoutes") //chamando todas as rotas
 
-app.use("/filmes", filmes) //colocando a rota raiz
+app.use("/filmes", filmes) 
 
-module.exports = app //exportando app
+module.exports = app 
