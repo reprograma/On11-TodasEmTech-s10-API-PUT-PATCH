@@ -48,9 +48,102 @@ const getByGenre = (request, response)=>{
     response.status(200).send(novaLista)
 }
 
+const createFilm = (req, resp) => {
+
+    const {Title, Year, Rated, Released, Runtime, Genre, Director, Writer, Actors, Plot, Language, Country, Awards} = req.body;
+
+   
+     let newMovie = {
+        id: Math.random().toString(32).substr(2,6),
+        Title, Year, Rated, Released, Runtime, Genre,
+        Director, Writer, Actors, Plot, Language, Country, Awards
+
+    }
+
+    filmes.push(newMovie);
+    resp.status(201).json([{
+        "message": "Filme Inserido",
+        newMovie
+    }])
+
+}
+
+const updateMovie = (req, resp) => {
+    const idRequired = req.params.id;
+    const {Title, Year, Rated, Released, Runtime, Genre, Director, Writer, Actors, Plot, Language, Country, Awards} = req.body;
+
+    const movieFilter = filmes.find(movie => movie.id == idRequired);
+
+    if(movieFilter == undefined || idRequired == ""){
+        resp.status(404).json([{
+            "mensagem": "Filme não encontrado"
+        }])
+    }
+        let movieUpdated = {
+            id: idRequired,
+            Title, Year, Rated, Released, Runtime, Genre, Director, Writer, Actors, Plot, Language, Country, Awards
+        }
+
+        resp.status(200).json([{
+            "message": "Filme atualizado",
+            movieUpdated
+          }])
+       
+}
+
+const deleteMovie = (req, resp) => {
+    const idRequired = req.params.id;
+    const movieFilter = filmes.find(movie => movie.id == idRequired);
+    const index = filmes.indexOf(movieFilter);
+
+    if(movieFilter == undefined || idRequired == "") {
+        resp.status(404).json([{
+            "message": "Filme não encontrado"
+        }])
+    }
+    
+    filmes.splice(index, 1)
+
+    resp.status(200).json([{
+        "message": "Filme deletado com sucesso",
+        filmes
+    }])
+}
+
+const updateAnythingMovie = (req, resp) => {
+    const idRequired = req.params.id;
+    const updateAnythingBody = req.body
+    const movieFilter = filmes.find(movie => movie.id == idRequired);
+
+    if(movieFilter == undefined || idRequired == "") {
+        resp.status(404).json([{
+            "message": "Filmes não encontrato"
+        }])
+    }
+
+    let keyList = Object.keys(updateAnythingBody);
+
+    keyList.forEach((key) => {
+        movieFilter[key] = updateAnythingBody[key];
+    })
+
+    resp.status(200).json([{
+        "message": "Filme atualizado com sucesso",
+        movieFilter
+    }])
+
+    
+}
+
+
 module.exports = { //exportando as funções
     getAll,
     getById,
     getByTitle,
-    getByGenre
+    getByGenre,
+    createFilm,
+    updateMovie,
+    deleteMovie,
+    updateAnythingMovie
+
 }

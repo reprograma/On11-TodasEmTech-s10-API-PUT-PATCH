@@ -58,10 +58,75 @@ const deleteTask = (request, response)=>{
 
 }
 
+const updateTask = (req, resp) => {
+    const idRequired = req.params.id;
+    let { concluido, descricao } = req.body;
 
-module.exports ={
+    const taskFilter = tarefasJson.find(task => task.id == idRequired);
+
+    if(taskFilter == undefined || idRequired == "") {
+        resp.status(404).json([{
+            "message": "Tarefa não encontrata"
+        }])
+    }
+    const index = tarefasJson.indexOf(taskFilter)
+
+    let taskUpdated = {
+        id: idRequired,
+        dataInclusao: taskFilter.dataInclusao,
+        concluido,
+        descricao,
+        nomeColaborador: taskFilter.nomeColaborador
+
+    }
+
+    tarefasJson.splice(index, 1, taskUpdated);
+
+    fs.writeFile("./src/models/tarefas.json", JSON.stringify(tarefasJson), 'utf8', (err) => {
+        err && res.status(401).send({message: err})
+      })
+
+
+    resp.status(200).json([{
+        "message": "Tarefa atualizada!",
+        taskUpdated
+    }])
+
+}
+
+const updateAnything = (req, resp) => {
+    const idRequired = req.params.id;
+    let updatebody = req.body;
+
+    const taskFilter = tarefasJson.find(task => task.id == idRequired);
+
+    if(taskFilter == undefined || idRequired == "") {
+        resp.status(404).json([{
+            "message": "Tarefa não encontrata"
+        }])
+    }
+    Object.keys(updatebody).forEach(key => {
+        taskFilter[key] = updatebody[key];
+    })
+
+    fs.writeFile("./src/models/tarefas.json", JSON.stringify(tarefasJson), 'utf8', (err) => {
+        err && res.status(401).send({message: err})
+      })
+
+      resp.status(200).json([{
+          "message": "Tarefa alterada",
+          taskFilter
+      }])
+
+}
+
+  
+
+module.exports = {
     getAll,
     getById,
     createTask,
-    deleteTask
+    deleteTask,
+    updateTask,
+    updateAnything
 }
